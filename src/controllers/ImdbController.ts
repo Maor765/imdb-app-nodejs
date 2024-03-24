@@ -24,8 +24,8 @@ export class ImdbController {
   createImdb = async (req: express.Request, res: express.Response) => {
     try {
       const employee = await new ImdbModel(req.body);
-      await employee.save();
-      return res.status(200).json({ message: "imdb created" });
+      const data = await employee.save();
+      return res.status(200).json({ message: "imdb created", data });
     } catch (error) {
       return res.status(400);
     }
@@ -33,8 +33,8 @@ export class ImdbController {
 
   createMultipleImdbs = async (req: express.Request, res: express.Response) => {
     try {
-      await ImdbModel.insertMany(req.body);
-      return res.status(200).json({ message: "imdb's created" });
+      const data = await ImdbModel.insertMany(req.body);
+      return res.status(200).json({ message: "imdb's created", data });
     } catch (error) {
       return res.status(400);
     }
@@ -45,7 +45,17 @@ export class ImdbController {
     try {
       const { id } = req.params;
       await ImdbModel.findByIdAndDelete({_id: id});
-      return res.status(200).json({ message: "imdb deleted" });
+      return res.status(200).json({ message: "imdb deleted", data:id });
+    } catch (error) {
+      return res.status(400);
+    }
+  };
+
+  deleteManyImdb = async (req: express.Request, res: express.Response) => {
+    try {
+      const { type } = req.params;
+      const data = await ImdbModel.deleteMany({Type: type});
+      return res.status(200).json({ message: "imdb deleted", data });
     } catch (error) {
       return res.status(400);
     }

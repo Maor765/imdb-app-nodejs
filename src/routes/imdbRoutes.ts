@@ -8,5 +8,6 @@ router.get('/imdb/:id', ImdbController.getImdb);
 router.post('/imdb', ImdbController.createImdb);
 router.delete('/imdb/:id', ImdbController.deleteImdb);
 router.post('/imdbs', ImdbController.createMultipleImdbs);
+router.delete('/imdbs/:type', ImdbController.deleteManyImdb);
 
 export default router;

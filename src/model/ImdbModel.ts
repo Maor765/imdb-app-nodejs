@@ -43,15 +43,12 @@ const ImdbSchema = new mongoose.Schema({
     },
     runtimeMins: {
         type: Number,
-        required: true
     },
     genreList: {
         type: Array<String>,
-        required: true
     },
     releaseDate: {
         type: String,
-        required: true
     },
 }, {
     timestamps: true
