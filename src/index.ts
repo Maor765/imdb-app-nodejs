@@ -6,23 +6,20 @@ import cors from "cors";
 
 dotenv.config(); // Load environment variables from .env file
 
-const apiKey = process.env.MONGO_URI; // Retrieve the environment variable
-console.log("API Key:", apiKey); // Use the environment variable as needed
+const MONGO_URI = process.env.MONGO_URI; // Retrieve the environment variable
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.options("*", cors());
 
-// const MONGO_URL = "mongodb://127.0.0.1:27017";
 const PORT = process.env.PORT || 3000;
 mongoose.set("strictQuery", false);
 
 mongoose
-  .connect(apiKey, {
+  .connect(MONGO_URI, {
     dbName: "node-typescript-app",
   })
   .then((r: any) => {
-    // console.log(`database connected ${stringify(r)}`);
     console.log(`database connected: ${r.connections[0].host}`);
   })
   .catch((error: any) => {
