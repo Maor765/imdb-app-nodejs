@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3000;
 mongoose.set("strictQuery", false);
 
 mongoose
-  .connect(MONGO_URI, {
+  .connect(process.env.MONGO_URI, {
     dbName: "node-typescript-app",
   })
   .then((r: any) => {
