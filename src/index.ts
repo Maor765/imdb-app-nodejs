@@ -14,9 +14,10 @@ app.options("*", cors());
 
 const PORT = process.env.PORT || 3000;
 mongoose.set("strictQuery", false);
+console.log("MONGO_URI:", MONGO_URI); // Use the environment variable as needed
 
 mongoose
-  .connect(process.env.MONGO_URI, {
+  .connect(MONGO_URI, {
     dbName: "node-typescript-app",
   })
   .then((r: any) => {
