@@ -3,12 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ImdbModel = void 0;
+exports.ImdbModel = exports.ImdbSchema = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
-const ImdbSchema = new mongoose_1.default.Schema({
+exports.ImdbSchema = new mongoose_1.default.Schema({
     Title: {
         type: String,
-        required: true
+        required: true,
     },
     Year: {
         type: String,
@@ -16,38 +16,47 @@ const ImdbSchema = new mongoose_1.default.Schema({
     },
     Released: {
         type: String,
-        required: true
+        required: true,
     },
     Runtime: {
         type: String,
-        required: true
+        required: true,
     },
     Genre: {
         type: String,
-        required: true
+        required: true,
     },
     Plot: {
         type: String,
-        required: true
+        required: true,
     },
     Poster: {
         type: String,
-        required: true
+        required: true,
     },
     imdbRating: {
         type: String,
-        required: true
+        required: true,
     },
     imdbID: {
         type: String,
-        required: true
+        required: true,
     },
     Type: {
         type: String,
-        required: true
+        required: true,
+    },
+    runtimeMins: {
+        type: Number,
+    },
+    genreList: {
+        type: (Array),
+    },
+    releaseDate: {
+        type: String,
     },
 }, {
-    timestamps: true
+    timestamps: true,
 });
-exports.ImdbModel = mongoose_1.default.model('Imdb', ImdbSchema);
+exports.ImdbModel = mongoose_1.default.model("Imdb", exports.ImdbSchema);
 //# sourceMappingURL=ImdbModel.js.map

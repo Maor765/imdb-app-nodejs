@@ -9,21 +9,19 @@ const imdbRoutes_1 = __importDefault(require("./routes/imdbRoutes"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config(); // Load environment variables from .env file
-const apiKey = process.env.MONOGO_URI; // Retrieve the environment variable
-console.log("API Key:", apiKey); // Use the environment variable as needed
+const MONGO_URI = process.env.MONGO_URI; // Retrieve the environment variable
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
-app.options('*', (0, cors_1.default)());
-const MONOGO_URL = "mongodb://127.0.0.1:27017";
+app.options("*", (0, cors_1.default)());
 const PORT = process.env.PORT || 3000;
 mongoose_1.default.set("strictQuery", false);
+console.log("MONGO_URI:", MONGO_URI); // Use the environment variable as needed
 mongoose_1.default
-    .connect(apiKey, {
+    .connect(MONGO_URI, {
     dbName: "node-typescript-app",
 })
     .then((r) => {
-    // console.log(`database connected ${stringify(r)}`);
     console.log(`database connected: ${r.connections[0].host}`);
 })
     .catch((error) => {

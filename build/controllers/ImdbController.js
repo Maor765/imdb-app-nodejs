@@ -15,8 +15,8 @@ class ImdbController {
     constructor() {
         this.getAllItems = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const employees = yield ImdbModel_1.ImdbModel.find();
-                return res.status(200).json({ data: employees });
+                const data = yield ImdbModel_1.ImdbModel.find();
+                return res.status(200).json({ data });
             }
             catch (error) {
                 return res.status(400);
@@ -25,8 +25,8 @@ class ImdbController {
         this.getImdb = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const { id } = req.params;
-                const employee = yield ImdbModel_1.ImdbModel.findById(id);
-                return res.status(200).json({ data: employee });
+                const data = yield ImdbModel_1.ImdbModel.findById(id);
+                return res.status(200).json({ data });
             }
             catch (error) {
                 return res.status(400);
@@ -34,9 +34,14 @@ class ImdbController {
         });
         this.createImdb = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const employee = yield new ImdbModel_1.ImdbModel(req.body);
-                yield employee.save();
-                return res.status(200).json({ message: "imdb created" });
+                const db = yield ImdbModel_1.ImdbModel.find({ imdbID: req.body.imdbID });
+                if (!db.length) {
+                    return res
+                        .status(200)
+                        .json({ message: "imdb duplicated", data: req.body });
+                }
+                const data = yield ImdbModel_1.ImdbModel.insertMany([req.body]);
+                return res.status(200).json({ message: "imdb created", data });
             }
             catch (error) {
                 return res.status(400);
@@ -44,8 +49,12 @@ class ImdbController {
         });
         this.createMultipleImdbs = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                yield ImdbModel_1.ImdbModel.insertMany(req.body);
-                return res.status(200).json({ message: "imdb's created" });
+                const duplicatedData = yield ImdbModel_1.ImdbModel.find({
+                    imdbID: { $in: req.body.map((item) => item.imdbID) },
+                });
+                const filterData = req.body.filter((item) => !duplicatedData.some((d) => d.imdbID === item.imdbID));
+                const data = yield ImdbModel_1.ImdbModel.insertMany(filterData);
+                return res.status(200).json({ message: "imdb's created", data });
             }
             catch (error) {
                 return res.status(400);
@@ -55,7 +64,17 @@ class ImdbController {
             try {
                 const { id } = req.params;
                 yield ImdbModel_1.ImdbModel.findByIdAndDelete({ _id: id });
-                return res.status(200).json({ message: "imdb deleted" });
+                return res.status(200).json({ message: "imdb deleted", data: id });
+            }
+            catch (error) {
+                return res.status(400);
+            }
+        });
+        this.deleteManyImdb = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { type } = req.params;
+                const data = yield ImdbModel_1.ImdbModel.deleteMany({ Type: type });
+                return res.status(200).json({ message: "imdb deleted", data });
             }
             catch (error) {
                 return res.status(400);

@@ -11,5 +11,6 @@ router.get('/imdb/:id', ImdbController_1.default.getImdb);
 router.post('/imdb', ImdbController_1.default.createImdb);
 router.delete('/imdb/:id', ImdbController_1.default.deleteImdb);
 router.post('/imdbs', ImdbController_1.default.createMultipleImdbs);
+router.delete('/imdbs/:type', ImdbController_1.default.deleteManyImdb);
 exports.default = router;
 //# sourceMappingURL=imdbRoutes.js.map
